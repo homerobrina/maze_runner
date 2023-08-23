@@ -48,13 +48,19 @@ pos_t load_maze(const char* file_name) {
 	fscanf(maze_file, "%d %d", &num_rows, &num_cols);
 
 	// Aloca a matriz maze (malloc)
-	for (int i = 0; i < num_rows; ++i)
+	for (int i = 0; i < num_rows; ++i){
 		maze[i] = (char *) malloc(num_cols);
+	}
 	
 	for (int i = 0; i < num_rows; ++i) {
 		for (int j = 0; j < num_cols; ++j) {
 			// Le o valor da linha i+1,j do arquivo e salva na posição maze[i][j]
+			fscanf(maze_file, "%c", &maze[i][j]);
 			// Se o valor for 'e' salvar o valor em initial_pos
+			if(maze[i][j] == 'e'){
+				initial_pos.i = i;
+				initial_pos.j = j;
+			}
 		}
 	}
 	return initial_pos;
