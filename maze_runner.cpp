@@ -22,7 +22,6 @@ struct pos_t {
 // posicões a serem exploradas no labirinto
 std::stack<pos_t> valid_positions;
 /* Inserir elemento: 
-
 	 pos_t pos;
 	 pos.i = 1;
 	 pos.j = 3;
@@ -124,12 +123,13 @@ int main(int argc, char* argv[]) {
 	// e salva em num_rows e num_cols
 	fscanf(maze_file, "%d", &num_rows);
 	fscanf(maze_file, "%d", &num_cols);
-	fgetc(maze_file);
+	//fgetc(maze_file);
 
 	std::vector<std::vector<char>> maze(num_rows, std::vector<char>(num_cols));
 
 	// carregar o labirinto com o nome do arquivo recebido como argumento
 	pos_t initial_pos = load_maze(maze_file, maze);
+	print_maze(maze);
 	// chamar a função de navegação
 	bool exit_found = walk(initial_pos);
 	
