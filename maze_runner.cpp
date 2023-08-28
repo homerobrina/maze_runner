@@ -1,3 +1,6 @@
+#define ANSI_COLOR_RED      "\x1b[31m" //cores em ANSI utilizadas 
+#define ANSI_COLOR_GRAY     "\e[0;37m"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stack>
@@ -72,23 +75,37 @@ pos_t load_maze(const char* file_name) {
 }
 
 // Função que imprime o labirinto
+// void print_maze() {
+// 	for (int i = 0; i < num_rows; ++i) {
+// 		for (int j = 0; j < num_cols; ++j) {
+// 			printf("%c", maze[i][j]);
+// 		}
+// 		printf("\n");
+// 	}
+// }
+
 void print_maze() {
 	for (int i = 0; i < num_rows; ++i) {
 		for (int j = 0; j < num_cols; ++j) {
-			printf("%c", maze[i][j]);
+			if(maze[i][j] == 'o' || maze[i][j] == '.'){
+				printf("\33[1;31m");
+				printf("%c", maze[i][j]);
+			} else {
+				printf("\33[1;30m");
+				printf("%c", maze[i][j]);
+			}
 		}
 		printf("\n");
 	}
 }
-
 
 // Função responsável pela navegação.
 // Recebe como entrada a posição initial e retorna um booleando indicando se a saída foi encontrada
 bool walk(pos_t pos) {
 
 	printf("posição: %d %d\n", pos.i, pos.j);
-	maze[pos.i][pos.j] = 'O';
-	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	maze[pos.i][pos.j] = 'o';
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	system("clear");
 	print_maze();
 	maze[pos.i][pos.j] = '.';
@@ -101,7 +118,7 @@ bool walk(pos_t pos) {
 	// }
 
 	if(pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 's'){
-		maze[pos.i][pos.j+1] = 'O';
+		maze[pos.i][pos.j+1] = 'o';
 		system("clear");
 		print_maze();
 		return true;
@@ -112,7 +129,7 @@ bool walk(pos_t pos) {
 	}
 
 	if(0 <= pos.j-1 && maze[pos.i][pos.j-1] == 's'){
-		maze[pos.i][pos.j-1] = 'O';
+		maze[pos.i][pos.j-1] = 'o';
 		system("clear");
 		print_maze();
 		return true;
@@ -123,7 +140,7 @@ bool walk(pos_t pos) {
 	}
 	
 	if(pos.i+1 < num_rows && maze[pos.i+1][pos.j] == 's'){
-		maze[pos.i+1][pos.j] = 'O';
+		maze[pos.i+1][pos.j] = 'o';
 		system("clear");
 		print_maze();
 		return true;
@@ -134,7 +151,7 @@ bool walk(pos_t pos) {
 	}
 	
 	if(0 <= pos.i-1 && maze[pos.i-1][pos.j] == 's'){
-		maze[pos.i-1][pos.j] = 'O';
+		maze[pos.i-1][pos.j] = 'o';
 		system("clear");
 		print_maze();
 		return true;
