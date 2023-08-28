@@ -177,7 +177,9 @@ int main(int argc, char* argv[]) {
 	print_maze();
 	
 	bool exit_found = walk(initial_pos);
-	
+
+	printf("\33[0m");
+
 	if(exit_found){
 		printf("Saida encontrada!\n");
 	} else
