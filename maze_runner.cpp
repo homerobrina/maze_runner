@@ -1,10 +1,6 @@
-#define ANSI_COLOR_RED      "\x1b[31m" //cores em ANSI utilizadas 
-#define ANSI_COLOR_GRAY     "\e[0;37m"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stack>
-#include <vector>
 
 #include <chrono>
 #include <thread>
@@ -15,8 +11,8 @@
 char** maze;
 
 // Numero de linhas e colunas do labirinto
-int num_rows = 0;
-int num_cols = 0;
+int num_rows;
+int num_cols;
 
 // Representação de uma posição
 struct pos_t {
@@ -84,6 +80,7 @@ pos_t load_maze(const char* file_name) {
 // 	}
 // }
 
+// Função que imprime o labirinto colorido
 void print_maze() {
 	for (int i = 0; i < num_rows; ++i) {
 		for (int j = 0; j < num_cols; ++j) {
@@ -109,13 +106,6 @@ bool walk(pos_t pos) {
 	system("clear");
 	print_maze();
 	maze[pos.i][pos.j] = '.';
-	
-	// if((pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 's') ||
-	//    (0 <= pos.j-1 && maze[pos.i][pos.j-1] == 's') ||
-	//    (pos.i+1 < num_rows && maze[pos.i+1][pos.j] == 's') ||
-	//    (0 <= pos.i-1 && maze[pos.i-1][pos.j] == 's')){
-	// 	return true;
-	// }
 
 	if(pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 's'){
 		maze[pos.i][pos.j+1] = 'o';
