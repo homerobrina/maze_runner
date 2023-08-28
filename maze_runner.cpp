@@ -87,34 +87,58 @@ void print_maze() {
 bool walk(pos_t pos) {
 
 	printf("posição: %d %d\n", pos.i, pos.j);
-	maze[pos.i][pos.j] = '.';
-	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	maze[pos.i][pos.j] = 'O';
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	system("clear");
 	print_maze();
+	maze[pos.i][pos.j] = '.';
 	
-	if((pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 's') ||
-	   (0 <= pos.j-1 && maze[pos.i][pos.j-1] == 's') ||
-	   (pos.i+1 < num_rows && maze[pos.i+1][pos.j] == 's') ||
-	   (0 <= pos.i-1 && maze[pos.i-1][pos.j] == 's')){
-		return true;
-	}
+	// if((pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 's') ||
+	//    (0 <= pos.j-1 && maze[pos.i][pos.j-1] == 's') ||
+	//    (pos.i+1 < num_rows && maze[pos.i+1][pos.j] == 's') ||
+	//    (0 <= pos.i-1 && maze[pos.i-1][pos.j] == 's')){
+	// 	return true;
+	// }
 
-	if(pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 'x') {
+	if(pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 's'){
+		maze[pos.i][pos.j+1] = 'O';
+		system("clear");
+		print_maze();
+		return true;
+	} else if(pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 'x') {
 		valid_pos.i = pos.i;
 		valid_pos.j = pos.j+1;
 		valid_positions.push(valid_pos);
 	}
-	if(0 <= pos.j-1 && maze[pos.i][pos.j-1] == 'x') {
+
+	if(0 <= pos.j-1 && maze[pos.i][pos.j-1] == 's'){
+		maze[pos.i][pos.j-1] = 'O';
+		system("clear");
+		print_maze();
+		return true;
+	} else if(0 <= pos.j-1 && maze[pos.i][pos.j-1] == 'x') {
 		valid_pos.i = pos.i;
 		valid_pos.j = pos.j-1;
 		valid_positions.push(valid_pos);
 	}
-	if(pos.i+1 < num_rows && maze[pos.i+1][pos.j] == 'x') {
+	
+	if(pos.i+1 < num_rows && maze[pos.i+1][pos.j] == 's'){
+		maze[pos.i+1][pos.j] = 'O';
+		system("clear");
+		print_maze();
+		return true;
+	} else if(pos.i+1 < num_rows && maze[pos.i+1][pos.j] == 'x') {
 		valid_pos.i = pos.i+1;
 		valid_pos.j = pos.j;
 		valid_positions.push(valid_pos);
 	}
-	if(0 <= pos.i-1 && maze[pos.i-1][pos.j] == 'x') {
+	
+	if(0 <= pos.i-1 && maze[pos.i-1][pos.j] == 's'){
+		maze[pos.i-1][pos.j] = 'O';
+		system("clear");
+		print_maze();
+		return true;
+	} else if(0 <= pos.i-1 && maze[pos.i-1][pos.j] == 'x') {
 		valid_pos.i = pos.i-1;
 		valid_pos.j = pos.j;
 		valid_positions.push(valid_pos);
