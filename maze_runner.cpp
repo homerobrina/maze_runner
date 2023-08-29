@@ -70,7 +70,7 @@ pos_t load_maze(const char* file_name) {
 	return initial_pos;
 }
 
-// Função que imprime o labirinto
+// Função que imprime o labirinto - Para tempos de sleep menores que 100ms
 // void print_maze() {
 // 	for (int i = 0; i < num_rows; ++i) {
 // 		for (int j = 0; j < num_cols; ++j) {
