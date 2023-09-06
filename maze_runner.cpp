@@ -74,30 +74,30 @@ pos_t load_maze(const char* file_name) {
 }
 
 // Função que imprime o labirinto - Para tempos de sleep menores que 100ms
-void print_maze() {
-	for (int i = 0; i < num_rows; ++i) {
-		for (int j = 0; j < num_cols; ++j) {
-			printf("%c", maze[i][j]);
-		}
-		printf("\n");
-	}
-}
-
-// Função que imprime o labirinto colorido
 // void print_maze() {
 // 	for (int i = 0; i < num_rows; ++i) {
 // 		for (int j = 0; j < num_cols; ++j) {
-// 			if(maze[i][j] == 'o' || maze[i][j] == '.'){
-// 				printf("\33[1;31m");
-// 				printf("%c", maze[i][j]);
-// 			} else {
-// 				printf("\33[1;30m");
-// 				printf("%c", maze[i][j]);
-// 			}
+// 			printf("%c", maze[i][j]);
 // 		}
 // 		printf("\n");
 // 	}
 // }
+
+// Função que imprime o labirinto colorido
+void print_maze() {
+	for (int i = 0; i < num_rows; ++i) {
+		for (int j = 0; j < num_cols; ++j) {
+			if(maze[i][j] == 'o' || maze[i][j] == '.'){
+				printf("\33[1;31m");
+				printf("%c", maze[i][j]);
+			} else {
+				printf("\33[1;30m");
+				printf("%c", maze[i][j]);
+			}
+		}
+		printf("\n");
+	}
+}
 
 // Função responsável pela navegação.
 // Recebe como entrada a posição initial e retorna um booleando indicando se a saída foi encontrada
@@ -107,7 +107,7 @@ void walk(pos_t pos) {
     pos_t valid_pos, next_position;
 
 	maze[pos.i][pos.j] = 'o';
-	std::this_thread::sleep_for(std::chrono::milliseconds(70));
+	std::this_thread::sleep_for(std::chrono::milliseconds(150));
 	maze[pos.i][pos.j] = '.';
 
 	if(pos.j+1 < num_cols && maze[pos.i][pos.j+1] == 's'){
@@ -187,7 +187,7 @@ int main(int argc, char* argv[]) {
 
 	while(!exit_found){
 		print_maze();
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		std::this_thread::sleep_for(std::chrono::milliseconds(150));
 		system("clear");
 	}
 
