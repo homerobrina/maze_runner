@@ -20,14 +20,14 @@ struct pos_t {
 	int j;
 };
 
-pos_t initial_pos, next_position, valid_pos;
+pos_t initial_pos;
 
 // Estrutura de dados contendo as próximas
 // posicões a serem exploradas no labirinto
-std::stack<pos_t> valid_positions;
+// std::stack<pos_t> valid_positions;
 
 //Flag saída encontrada
-bool exit_found;
+bool exit_found = 0;
 
 // Função que le o labirinto de um arquivo texto, carrega em 
 // memória e retorna a posição inicial
@@ -103,6 +103,9 @@ void print_maze() {
 // Recebe como entrada a posição initial e retorna um booleando indicando se a saída foi encontrada
 void walk(pos_t pos) {
 
+    std::stack<pos_t> valid_positions;
+    pos_t valid_pos, next_position;
+
 	maze[pos.i][pos.j] = 'o';
 	std::this_thread::sleep_for(std::chrono::milliseconds(70));
 	maze[pos.i][pos.j] = '.';
@@ -151,11 +154,28 @@ void walk(pos_t pos) {
 		valid_positions.push(valid_pos);
 	}
 
-	while (!valid_positions.empty()) {
-		next_position = valid_positions.top();
-		valid_positions.pop();
-		walk(next_position);
-	}
+   if (valid_positions.size() == 1) {
+        next_position = valid_positions.top();
+        valid_positions.pop();
+        walk(next_position);
+    } else if (valid_positions.size() == 2) {
+        next_position = valid_positions.top();
+        std::thread t0(walk, next_position);
+        t0.detach();
+        valid_positions.pop();
+        next_position = valid_positions.top();
+        walk(next_position);
+    } else if (valid_positions.size() == 3) {
+        next_position = valid_positions.top();
+        std::thread t1(walk, next_position);
+        t1.detach();
+        valid_positions.pop();
+        next_position = valid_positions.top();
+        std::thread t2(walk, next_position);
+        t2.detach();
+        next_position = valid_positions.top();
+        walk(next_position);
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -163,9 +183,7 @@ int main(int argc, char* argv[]) {
 	pos_t initial_pos = load_maze(argv[1]);
 	
 	std::thread t(walk, initial_pos);
-	// t.join();
-
-	printf("\33[0m");
+	t.detach();
 
 	while(!exit_found){
 		print_maze();
@@ -173,8 +191,8 @@ int main(int argc, char* argv[]) {
 		system("clear");
 	}
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	print_maze();
+    printf("\33[0m");
 	printf("Saida encontrada!\n");
 
 	return 0;
